@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from 'preact/hooks';
 import MobileDetect from 'mobile-detect';
 
+import './player.css';
+
 const md = new MobileDetect(window.navigator.userAgent);
 const mobile = md.mobile();
 
