@@ -1,0 +1,22 @@
+{
+  "name": "chzzk-embed-player",
+  "version": "0.0.0",
+  "type": "module",
+	"homepage": "https://wdjty326.github.io/chzzk-embed-player",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+		"publish": "gh-pages -d dist"
+  },
+  "dependencies": {
+    "mobile-detect": "^1.4.5",
+    "preact": "^10.19.6"
+  },
+  "devDependencies": {
+    "@preact/preset-vite": "^2.8.2",
+    "gh-pages": "^6.1.1",
+    "typescript": "^5.2.2",
+    "vite": "^5.2.0"
+  }
+}
