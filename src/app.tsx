@@ -1,46 +1,19 @@
-import { useEffect, useMemo, useRef, useState } from 'preact/hooks';
-import MobileDetect from 'mobile-detect';
+import Router, { Route } from 'preact-router';
+import ChzzkEmbedPlayer from './ChzzkEmbedPlayer';
+
 import './app.css'
 
-const md = new MobileDetect(window.navigator.userAgent);
-const mobile = md.mobile();
-
 export function App() {
-	const chzzkIframeRef = useRef<HTMLIFrameElement>(null);
-	const [isChanged, setIsChanged] = useState<boolean>(false);
-
-	const href = useMemo(() => {
-		const channelId = window.location.pathname.substring(
-			window.location.pathname.lastIndexOf('/') + 1
-		);
-		return `https://${mobile ? 'm.chzzk' : 'chzzk'}.naver.com/live/${channelId}`;
-	}, []);
-
-	useEffect(() => {
-		if (!chzzkIframeRef.current || mobile) return;
-		const observer = new ResizeObserver((entries) => {
-			entries.forEach((entry) => {
-				const updated = entry.contentRect.width < 1200;
-				if (updated !== isChanged) {
-					setIsChanged(updated);
-				}
-			});
-		});
-		observer.observe(chzzkIframeRef.current);
-		return () => observer.disconnect();
-	}, [isChanged]);
-
-	return (<div className="ChzzkPlayer">
-		<div className={`ChzzkPlayerWrapper ${mobile ? 'Mobile' : ''}`}>
-			<iframe
-				className={!mobile && isChanged ? 'Updated' : ''}
-				ref={chzzkIframeRef}
-				src={href}
-				frameBorder={0}
-				scrolling="no"
-				allowFullScreen={true}
-				crossOrigin="anonymous"
-			></iframe>
-		</div>
-	</div>);
+	return (<Router path={import.meta.env.BASE_URL}>
+		<Route path='/:channelId' component={ChzzkEmbedPlayer} />
+		<Route default component={GuidePage} />
+	</Router>);
 }
+
+const GuidePage = () => {
+	return <>
+		<p>치지직 라이브용 Embed Player 입니다.</p>
+		<p>URL<code>/chzzk-embed-player/채널ID</code> 형식으로 접근해주세요</p>
+		<p>라이브 외에 다시보기등에서는 동작하지 않습니다.</p>
+	</>;
+};
